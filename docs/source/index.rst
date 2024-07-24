@@ -1,9 +1,9 @@
-.. ytm_sdk:
+.. ytmicro_sdk:
 
 YTMicro SDK Documentation
 =========================
 
-Welcome to ytm_sdk's documentation!
+Welcome to ytmicro_sdk's documentation!
 
 
 .. toctree::

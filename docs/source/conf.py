@@ -8,7 +8,7 @@
 
 import sphinx_rtd_theme
 
-project = 'ytm_sdk'
+project = 'ytmicro_sdk'
 copyright = '2024, Mamba'
 author = 'Mamba'
 
