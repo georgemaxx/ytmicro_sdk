@@ -35,39 +35,92 @@ extern "C"{
 * 3) internal and external interfaces from this unit
 ===============================================================================================*/
 
+#include "Pwm.h"
+
+
+
 /*===============================================================================================
 *                                        SOURCE FILE VERSION INFORMATION
 ===============================================================================================*/
 
-
-#define PWM_VENDOR_ID_C                         43
-#define PWM_AR_RELEASE_MAJOR_VERSION_C          4
-#define PWM_AR_RELEASE_MINOR_VERSION_C          0
-/*
-* @violates @ref Pwm_C_REF_3 Identifier clash.
-*/
-/* @violates @ref Pwm_C_REF_6 Identifier exceeds 31 chars. */
-#define PWM_AR_RELEASE_REVISION_VERSION_C       3
 #define PWM_SW_MAJOR_VERSION_C                  1
 #define PWM_SW_MINOR_VERSION_C                  0
-#define PWM_SW_PATCH_VERSION_C                  5
+#define PWM_SW_PATCH_VERSION_C                  0
 
 
-
+/*===============================================================================================
+*                                       GLOBAL FUNCTIONS
+===============================================================================================*/
 /**
-* @brief            This function initializes all internals variables of the driver.
-* @details          This function will initialize with default values all Ftm submodule registers.
-*                   Will loop through all Ftm channels in the configuration structure and will
-*                   setup required submodules for each channel
+* @brief        This function initializes the Pwm driver.
+* @details      The function Pwm_Init shall initialize all internals variables and the used
+*               PWM structure of the microcontroller according to the parameters
+*               specified in ConfigPtr.
+*               If the duty cycle parameter equals:
 *
+*                   - 0% or 100% : Then the PWM output signal shall be in the state according
+*                       to the configured polarity parameter;
 *
-* @param[in]        pFtmIpConfig  Pointer to Ftm channels configuration structure
+*                   - >0% and <100%: Then the PWM output signal shall be modulated according
+*                       to parameters period, duty cycle and configured polarity.
 *
+*               The function Pwm_SetDutyCycle shall update the duty cycle always at the end
+*               of the period if supported by the implementation and configured
+*               with PwmDutycycleUpdatedEndperiod.
 *
-* @return           void
+*               The driver shall avoid spikes on the PWM output signal when updating
+*               the PWM period and duty.
+*
+*               If development error detection for the Pwm module is enabled, the PWM functions
+*               shall check the channel class type and raise development error PWM_E_PERIOD_UNCHANGEABLE
+*               if the PWM channel is not declared as a variable period type.
+*
+*               If development error detection for the Pwm module is enabled, the PWM functions
+*               shall check the parameter ChannelNumber and raise development error PWM_E_PARAM_CHANNEL
+*               if the parameter ChannelNumber is invalid.
+*
+*               If development error detection for the Pwm module is enabled, when a development
+*               error occurs, the corresponding PWM function shall:
+*
+*                   - Report the error to the Development Error Tracer.
+*                   - Skip the desired functionality in order to avoid any corruptions of
+*                       data or hardware registers (this means leave the function without any actions).
+*                   - Return pwm level low for the function Pwm_GetOutputState.
+*
+*               The function Pwm_Init shall disable all notifications. The reason is that the users
+*               of these notifications may not be ready. They can call Pwm_EnableNotification
+*               to start notifications.
+*
+*               The function Pwm_Init shall only initialize the configured resources and shall not touch
+*               resources that are not configured in the configuration file.
+*
+*               If the PwmDevErorDetect switch is enabled, API parameter checking is enabled.
+*               The detailed description of the detected errors can be found in chapter
+*               Error classification and chapter API specification (see PWM_SWS).
+*
+*               If development error detection is enabled, calling the routine Pwm_Init
+*               while the PWM driver and hardware are already initialized will cause a
+*               development error PWM_E_ALREADY_INITIALIZED.
+*               The desired functionality shall be left without any action.
+*
+*               For pre-compile and link time configuration variants, a NULL pointer shall be passed
+*               to the initialization routine. In this case the check for this NULL pointer
+*               has to be omitted.
+*
+*               If development error detection for the Pwm module is enabled, if any function
+*               (except Pwm_Init) is called before Pwm_Init has been called, the called function
+*               shall raise development error PWM_E_UNINIT.
+*
+* @param[in]    ConfigPtr       pointer to PWM top configuration structure
+*
+* @return       void
+*
+* @api
+*
+* @implements   Pwm_Init_Activity
 *
 */
-void Pwm_Init(void)
+void Pwm_Init(const Pwm_ConfigType *ConfigPtr)
 {
     // Initialize PWM
     // ...
