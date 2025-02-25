@@ -130,6 +130,21 @@ void Pwm_DeInit(void)
     
 }
 
+void Pwm_SetDutyCycle(uint8_t ChannelNumber, uint16_t u16DutyCycle)
+{
+
+}
+
+void Pwm_SetPeriodAndDuty(uint8_t ChannelNumber, uint16_t Period, uint16_t u16DutyCycle)
+{
+
+}
+
+void Pwm_SetOutputToIdle(uint8_t ChannelNumber)
+{
+
+}
+
 
 #ifdef __cplusplus
 }
