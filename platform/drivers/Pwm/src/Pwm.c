@@ -122,11 +122,13 @@ extern "C"{
 */
 void Pwm_Init(const Pwm_ConfigType *ConfigPtr)
 {
-    // Initialize PWM
-    // ...
+    
 }
 
-
+void Pwm_DeInit(void)
+{
+    
+}
 
 
 #ifdef __cplusplus
