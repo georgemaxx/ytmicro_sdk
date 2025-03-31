@@ -1,6 +1,5 @@
 /**
 *   @file           Pwm.c
-*   @implements     Pwm.c_Artifact
 *   @version        1.0.0
 *
 *   @brief          SDK Pwm - Pwm high level interface implementation.
@@ -112,12 +111,6 @@ extern "C"{
 *               shall raise development error PWM_E_UNINIT.
 *
 * @param[in]    ConfigPtr       pointer to PWM top configuration structure
-*
-* @return       void
-*
-* @api
-*
-* @implements   Pwm_Init_Activity
 *
 */
 void Pwm_Init(const Pwm_ConfigType *ConfigPtr)
